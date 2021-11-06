@@ -4,7 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { catchError, map, Observable } from "rxjs";
+import { map, Observable } from 'rxjs';
 
 export interface Response<T> {
   status: string;
