@@ -1,6 +1,8 @@
 import { IsDefined, IsEmail, IsNumber, IsOptional } from 'class-validator';
 
-export default class CreateTaskDto {
+export default class UpdateTaskDto {
+  @IsNumber()
+  id: number;
   @IsDefined()
   title: string;
   @IsOptional()
@@ -14,5 +16,5 @@ export default class CreateTaskDto {
   @IsNumber()
   priority: number;
   @IsOptional()
-  plannedEnd: number;
+  plannedEnd: string;
 }
