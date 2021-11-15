@@ -1,13 +1,20 @@
 import TaskRepository from '../../repository/task.repository';
 import Task from '../model/task';
 import { Injectable } from '@nestjs/common';
+import UserEmailValidator from '../../../shared/user.email.validator';
+import GlobalService from '../../../global/global.service';
 
 @Injectable()
 export default class CreateTaskUsecase {
-  constructor(private readonly taskRepository: TaskRepository) {}
+  constructor(
+    private readonly taskRepository: TaskRepository,
+    private readonly userEmailValidator: UserEmailValidator,
+    private readonly globalService: GlobalService,
+  ) {}
 
   async create(task: Task) {
-    // business validation goes here
+    await this.userEmailValidator.validate(task.assignee);
+    await this.globalService.doImportantThings();
     const createdTask = await this.taskRepository.save(task);
     console.log(`a new task was created ${JSON.stringify(createdTask)}`);
     // Info logger goes here

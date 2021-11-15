@@ -6,12 +6,14 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import CreateTaskDto from './dto/create.task.dto';
 import UpdateTaskDto from './dto/update.task.dto';
 import CreateTaskUsecase from '../manager/usecase/create.task.usecase';
 import { getDate } from '../../lib/date.utils';
 import GetTaskUsecase from '../manager/usecase/get.task.usecase';
+import PartTimeApiGuard from '../../lib/guards/part.time.api.guard';
 
 @Controller('tasks')
 export default class TaskController {
@@ -30,6 +32,7 @@ export default class TaskController {
     return [];
   }
 
+  @UseGuards(PartTimeApiGuard)
   @Post()
   async createTask(@Body() createTaskDto: CreateTaskDto) {
     return this.createTaskUsecase.create({
