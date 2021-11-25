@@ -15,11 +15,13 @@ import { getDate } from '../../lib/date.utils';
 import GetTaskUsecase from '../manager/usecase/get.task.usecase';
 import PartTimeApiGuard from '../../lib/guards/part.time.api.guard';
 import {HttpExceptionFilter} from '../../lib/exception.filters/http-exception.filters'
+import {AllExceptionsFilter} from '../../lib/exception.filters/all-exceptions.filters'
+import {HttpAdapterHost} from '@nestjs/core'
 
 
 //add to demonstrate specific http exception filter
-//@UseFilters(new HttpExceptionFilter())
-//@UseFilters(new AllExceptionsFilter())
+//@UseFilters(HttpExceptionFilter)
+//@UseFilters(AllExceptionsFilter)
 @Controller('tasks')
 export default class TaskController {
   constructor(

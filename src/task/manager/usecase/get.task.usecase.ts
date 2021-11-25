@@ -11,9 +11,14 @@ export default class GetTaskUsecase {
   constructor(private taskRepository: TaskRepository) {}
 
   async get(id: number) {
+    if (Math.floor(Math.random() * 3) % 3 === 0) {
+      throw new Error("error")
+    }
+
     console.log(
-        `while getting task call to test provider name: ${this.testProvider.getName()}`,
+        `test provider name: ${this.testProvider.getName()}`,
     );
+
     return this.taskRepository.findOne(id);
   }
 }
