@@ -1,20 +1,25 @@
 import {
   Body,
   Controller,
-  Get,
+  Get, HttpException, HttpStatus, NotFoundException,
   Param,
   ParseIntPipe,
   Post,
-  Put,
+  Put, UseFilters,
   UseGuards,
-} from '@nestjs/common';
+} from '@nestjs/common'
 import CreateTaskDto from './dto/create.task.dto';
 import UpdateTaskDto from './dto/update.task.dto';
 import CreateTaskUsecase from '../manager/usecase/create.task.usecase';
 import { getDate } from '../../lib/date.utils';
 import GetTaskUsecase from '../manager/usecase/get.task.usecase';
 import PartTimeApiGuard from '../../lib/guards/part.time.api.guard';
+import {HttpExceptionFilter} from '../../lib/exception.filters/http-exception.filters'
 
+
+//add to demonstrate specific http exception filter
+//@UseFilters(new HttpExceptionFilter())
+//@UseFilters(new AllExceptionsFilter())
 @Controller('tasks')
 export default class TaskController {
   constructor(
@@ -24,7 +29,11 @@ export default class TaskController {
 
   @Get(':id')
   async getTask(@Param('id', ParseIntPipe) id: number) {
-    return this.getTaskUsecase.get(id);
+    const result = await this.getTaskUsecase.get(id);
+    if (!result) {
+      throw new NotFoundException();
+    }
+    return result
   }
 
   @Get()
@@ -54,9 +63,19 @@ export default class TaskController {
 
   @Put(':id')
   async updateTask(
-    @Param('id') id: number,
-    @Body() updateTaskDto: UpdateTaskDto,
+      @Param('id', ParseIntPipe) id: number,
+      @Body() updateTaskDto: UpdateTaskDto,
   ) {
+    const result = await this.getTaskUsecase.get(id);
+
+    if (!result) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: `The task with ${id} did not found`,
+      }, HttpStatus.NOT_FOUND);
+    }
+
+
     return `updating task id: ${id}`;
   }
 }

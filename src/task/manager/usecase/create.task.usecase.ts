@@ -7,8 +7,6 @@ import TestProvider from '../test.provider';
 
 @Injectable()
 export default class CreateTaskUsecase {
-  @Inject('test-provider')
-  private readonly testProvider: TestProvider;
 
   constructor(
     private readonly taskRepository: TaskRepository,
@@ -17,9 +15,6 @@ export default class CreateTaskUsecase {
   ) {}
 
   async create(task: Task) {
-    console.log(
-      `while creating task call to test provider name: ${this.testProvider.getName()}`,
-    );
     await this.userEmailValidator.validate(task.assignee);
     await this.globalService.doImportantThings();
     const createdTask = await this.taskRepository.save(task);

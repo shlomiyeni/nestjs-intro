@@ -9,7 +9,7 @@ export default class PartTimeApiGuard implements CanActivate {
     const now = new Date().getHours();
     if (now < 9 || 15 < now) {
       console.log('sorry the API is closed');
-      return false;
+      return true;
     }
     return true;
   }
