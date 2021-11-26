@@ -40,6 +40,7 @@ describe('CatsController', () => {
             })
 
             const taskedWithId = await createTaskUsecase.create(task)
+
             expect(taskedWithId.id).toBe(50);
         });
     });

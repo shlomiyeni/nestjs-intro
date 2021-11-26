@@ -24,7 +24,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 : HttpStatus.INTERNAL_SERVER_ERROR;
 
         const responseBody = {
-            whoAmI: "httpExceptionFilter",
+            whoAmI: "allExceptionFilter",
             statusCode: httpStatus,
             timestamp: new Date().toISOString(),
             path: httpAdapter.getRequestUrl(ctx.getRequest()),
