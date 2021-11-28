@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import ITestProvider from './test.provider.interface'
+import ITestProvider from './test.provider.interface';
 
 @Injectable()
 export default class TestProvider implements ITestProvider {

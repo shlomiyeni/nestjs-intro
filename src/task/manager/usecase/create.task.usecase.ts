@@ -7,7 +7,6 @@ import TestProvider from '../test.provider';
 
 @Injectable()
 export default class CreateTaskUsecase {
-
   constructor(
     private readonly taskRepository: TaskRepository,
     private readonly userEmailValidator: UserEmailValidator,

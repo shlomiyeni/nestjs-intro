@@ -1,23 +1,26 @@
 import {
   Body,
   Controller,
-  Get, HttpException, HttpStatus, NotFoundException,
+  Get,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Post,
-  Put, UseFilters,
+  Put,
+  UseFilters,
   UseGuards,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import CreateTaskDto from './dto/create.task.dto';
 import UpdateTaskDto from './dto/update.task.dto';
 import CreateTaskUsecase from '../manager/usecase/create.task.usecase';
 import { getDate } from '../../lib/date.utils';
 import GetTaskUsecase from '../manager/usecase/get.task.usecase';
 import PartTimeApiGuard from '../../lib/guards/part.time.api.guard';
-import {HttpExceptionFilter} from '../../lib/exception.filters/http-exception.filters'
-import {AllExceptionsFilter} from '../../lib/exception.filters/all-exceptions.filters'
-import {HttpAdapterHost} from '@nestjs/core'
-
+import { HttpExceptionFilter } from '../../lib/exception.filters/http-exception.filters';
+import { AllExceptionsFilter } from '../../lib/exception.filters/all-exceptions.filters';
+import { HttpAdapterHost } from '@nestjs/core';
 
 //add to demonstrate specific http exception filter
 //@UseFilters(HttpExceptionFilter)
@@ -35,7 +38,7 @@ export default class TaskController {
     if (!result) {
       throw new NotFoundException();
     }
-    return result
+    return result;
   }
 
   @Get()
@@ -65,18 +68,20 @@ export default class TaskController {
 
   @Put(':id')
   async updateTask(
-      @Param('id', ParseIntPipe) id: number,
-      @Body() updateTaskDto: UpdateTaskDto,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTaskDto: UpdateTaskDto,
   ) {
     const result = await this.getTaskUsecase.get(id);
 
     if (!result) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        error: `The task with ${id} did not found`,
-      }, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: `The task with ${id} did not found`,
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
-
 
     return `updating task id: ${id}`;
   }
